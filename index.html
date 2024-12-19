@@ -3,109 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CycloneWare</title>
+    <title>Home - Cycloneware</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #2a2a72, #009ffd);
-            color: white;
         }
         header {
-            background: #1a1a40;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            margin: 0;
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        nav ul li {
-            margin-left: 15px;
-        }
-        nav ul li a {
-            text-decoration: none;
+            background-color: #333;
             color: white;
-            font-weight: bold;
-        }
-        main {
+            padding: 15px;
             text-align: center;
-            padding: 50px 20px;
         }
-        .games-list, .community-section {
-            margin: 20px auto;
+        .game-container {
             padding: 20px;
-            background: #333;
-            border-radius: 10px;
             max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
-        .games-list h2, .community-section h2 {
-            margin-bottom: 10px;
+        .user-info {
+            margin-bottom: 20px;
         }
-        .games-list ul, .community-section ul {
-            list-style: none;
-            padding: 0;
+        .user-info p {
+            font-size: 18px;
         }
-        .games-list ul li, .community-section ul li {
-            margin: 5px 0;
-        }
-        footer {
-            text-align: center;
+        .user-info button {
             padding: 10px;
-            background: #1a1a40;
-            margin-top: 20px;
+            background-color: #d9534f;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .user-info button:hover {
+            background-color: #c9302c;
+        }
+        .login-button {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>CycloneWare</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="games.html">Games</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
+        <h1>Welcome to Cycloneware</h1>
+        <p>Your one-stop for gaming and online community!</p>
     </header>
-    <main>
-        <h2>Welcome to CycloneWare!</h2>
-        <p>Your ultimate destination for games and a thriving community.</p>
-        <section class="games-list">
-            <h2>Featured Games</h2>
-            <ul>
-                <li><a href="#">Adventure Quest</a></li>
-                <li><a href="#">Puzzle Mania</a></li>
-                <li><a href="#">Cyclone Racing</a></li>
-            </ul>
-        </section>
-        <section class="community-section">
-            <h2>Community Highlights</h2>
-            <ul>
-                <li><a href="#">Join Discussions</a></li>
-                <li><a href="#">Leaderboard</a></li>
-                <li><a href="#">User Profiles</a></li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 CycloneWare. All rights reserved.</p>
-    </footer>
+
+    <div class="game-container">
+        <div class="user-info" id="user-info">
+            <!-- Dynamic user info or login button will appear here -->
+        </div>
+
+        <button class="login-button" id="login-btn" onclick="handleLogin()">Login with Google</button>
+    </div>
+
     <script>
-        // Basic interactivity for the homepage
-        document.querySelector('header h1').addEventListener('click', () => {
-            alert('Welcome to CycloneWare!');
-        });
+        let user = null;
+
+        // Initialize Google API Client
+        function initClient() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com',
+                }).then(function(auth2) {
+                    checkSignInStatus(auth2);
+                });
+            });
+        }
+
+        // Check if the user is signed in and update the UI
+        function checkSignInStatus(auth2) {
+            user = auth2.currentUser.get();
+            const loginButton = document.getElementById('login-btn');
+            const userInfo = document.getElementById('user-info');
+
+            if (auth2.isSignedIn.get()) {
+                // Display user info and logout button
+                const userName = user.getBasicProfile().getName();
+                userInfo.innerHTML = `
+                    <p>Welcome, ${userName}</p>
+                    <button onclick="handleLogout()">Logout</button>
+                `;
+                loginButton.style.display = 'none';  // Hide login button
+            } else {
+                // Display login button
+                userInfo.innerHTML = '';
+                loginButton.style.display = 'inline-block';
+            }
+        }
+
+        // Handle login
+        function handleLogin() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signIn().then(function() {
+                checkSignInStatus(auth2);  // Update UI after login
+            });
+        }
+
+        // Handle logout
+        function handleLogout() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function() {
+                checkSignInStatus(auth2);  // Update UI after logout
+            });
+        }
+
+        // Initialize the client after the page has loaded
+        window.onload = initClient;
     </script>
 </body>
 </html>
