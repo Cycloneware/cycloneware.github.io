@@ -100,6 +100,12 @@
         Your browser does not support the audio element.
     </audio>
 
+    <!-- Victory BGM -->
+    <audio id="victory-bgm" loop>
+        <source src="bgm-victory.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+
     <script>
         let currentStage = 0;
 
@@ -143,6 +149,19 @@
             bgm.currentTime = 0;  // Reset to start
         }
 
+        // Function to start victory BGM
+        function startVictoryBGM() {
+            const victoryBGM = document.getElementById("victory-bgm");
+            victoryBGM.play();
+        }
+
+        // Stop victory BGM
+        function stopVictoryBGM() {
+            const victoryBGM = document.getElementById("victory-bgm");
+            victoryBGM.pause();
+            victoryBGM.currentTime = 0;  // Reset to start
+        }
+
         // Battle system
         function startBattle() {
             console.log("Battle Started");  // Debugging log
@@ -167,6 +186,7 @@
                 gameText.textContent = `You defeated the ${enemy.name}! You earned 50 gold.`;
                 player.gold += 50;
                 stopBattleBGM();
+                startVictoryBGM();  // Start victory BGM
                 nextStage(3);  // Victory
             } else {
                 enemyTurn();
@@ -182,6 +202,7 @@
             if (player.health <= 0) {
                 gameText.textContent = "You have been defeated by the wild beast. Game Over.";
                 stopBattleBGM();
+                stopVictoryBGM();  // Stop victory music if the player loses
                 nextStage(4);  // Loss
             }
         }
@@ -195,6 +216,7 @@
             if (player.health <= 0) {
                 gameText.textContent = "You have been defeated by the wild beast. Game Over.";
                 stopBattleBGM();
+                stopVictoryBGM();  // Stop victory music if the player loses
                 nextStage(4);  // Loss
             } else {
                 enemyTurn();
