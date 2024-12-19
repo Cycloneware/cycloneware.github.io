@@ -80,8 +80,9 @@
         function initClient() {
             gapi.load('auth2', function() {
                 gapi.auth2.init({
-                    client_id: '461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com',
+                    client_id: '461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com',  // Make sure this is the correct client ID
                 }).then(function(auth2) {
+                    console.log("Google Auth2 initialized successfully");
                     checkSignInStatus(auth2);
                 }).catch(function(error) {
                     console.error("Error initializing Google Auth:", error);
@@ -114,6 +115,7 @@
         function handleLogin() {
             const auth2 = gapi.auth2.getAuthInstance();
             auth2.signIn().then(function() {
+                console.log("User successfully logged in");
                 // Update UI after successful login
                 checkSignInStatus(auth2);
                 // Redirect to dashboard after login
@@ -128,6 +130,7 @@
         function handleLogout() {
             const auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function() {
+                console.log("User logged out");
                 checkSignInStatus(auth2);  // Update UI after logout
                 window.location.href = "index.html";  // Redirect back to homepage after logout
             }).catch(function(error) {
