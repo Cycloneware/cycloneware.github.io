@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Cycloneware</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Content Security Policy to allow Google OAuth scripts -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://apis.google.com;">
+
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
