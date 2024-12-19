@@ -126,13 +126,13 @@
     </div>
 
     <!-- Battle BGM -->
-    <audio id="battle-bgm" loop>
+    <audio id="battle-bgm">
         <source src="bgm-battle.mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
 
     <!-- Victory BGM -->
-    <audio id="victory-bgm" loop>
+    <audio id="victory-bgm">
         <source src="bgm-victory.ogg" type="audio/ogg">
         Your browser does not support the audio element.
     </audio>
@@ -184,7 +184,9 @@
         // Function to start battle music
         function startBattleBGM() {
             const bgm = document.getElementById("battle-bgm");
-            bgm.play();
+            bgm.play().catch(e => {
+                console.error("Audio play error: ", e);
+            });
         }
 
         // Stop battle music
@@ -197,7 +199,9 @@
         // Function to start victory BGM
         function startVictoryBGM() {
             const victoryBGM = document.getElementById("victory-bgm");
-            victoryBGM.play();
+            victoryBGM.play().catch(e => {
+                console.error("Victory audio play error: ", e);
+            });
         }
 
         // Stop victory BGM
@@ -281,52 +285,36 @@
         function useItem() {
             if (isBattleOver) return; // Prevent actions after battle is over
             if (player.inventory.includes("Health Potion")) {
-                player.health += 30;  // Heal 30 health
-                player.inventory = player.inventory.filter(item => item !== "Health Potion");  // Remove potion
-                gameText.textContent = `You used a health potion. You gained 30 health. Your current health is ${player.health}.`;
+                player.health = Math.min(100, player.health + 30);  // Heal up to 100
+                player.inventory = player.inventory.filter(item => item !== "Health Potion");
+                gameText.textContent = `You used a Health Potion. Your health is now ${player.health}.`;
 
-                updateHealthBars();  // Update health bars after using an item
-
-                enemyTurn();
+                updateHealthBars();  // Update health bars after using item
+                enemyTurn();  // Proceed to enemy's turn
             } else {
-                gameText.textContent = "You don't have any items to use!";
+                gameText.textContent = "You have no Health Potions left!";
                 enemyTurn();
             }
         }
 
-        // Function for different stages
+        // Function to proceed to the next stage
         function nextStage(stage) {
             currentStage = stage;
             switch (stage) {
                 case 1:
                     startBattle();
                     break;
-                case 3:
-                    // Victory
-                    gameText.textContent += ` You gained 50 gold.`;
-                    isBattleOver = true; // End battle
-                    disableButtons(); // Disable all action buttons
+                case 3:  // Victory
+                    gameText.textContent += " Victory! Well done.";
                     break;
-                case 4:
-                    // Game Over
-                    gameText.textContent = "Game Over! Try again.";
-                    isBattleOver = true; // End battle
-                    disableButtons(); // Disable all action buttons
+                case 4:  // Game Over
+                    gameText.textContent += " You lost. Try again!";
                     break;
             }
-            updateStats();  // Update stats after stage change
         }
 
-        // Disable all battle action buttons
-        function disableButtons() {
-            document.getElementById("attack-btn").disabled = true;
-            document.getElementById("defend-btn").disabled = true;
-            document.getElementById("use-item-btn").disabled = true;
-        }
-
-        // Start the game by going to stage 1
-        nextStage(1);
-
+        // Initialize
+        nextStage(1);  // Start the battle
     </script>
 </body>
 </html>
