@@ -21,9 +21,35 @@
     <main>
         <h2>Welcome to your Dashboard!</h2>
         <p>Explore your games and community activities.</p>
+
+        <!-- Friend Code Section -->
+        <section id="friend-code-section">
+            <h3>Your Friend Code:</h3>
+            <p id="friend-code"></p>
+            <button id="copy-code-btn">Copy Friend Code</button>
+        </section>
     </main>
+
     <script>
-        // Logout functionality (reused from login.html)
+        // Display friend code
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            document.getElementById("friend-code").textContent = user.friendCode;
+        }
+
+        // Copy friend code to clipboard
+        document.getElementById("copy-code-btn").addEventListener("click", () => {
+            const friendCode = user ? user.friendCode : '';
+            if (friendCode) {
+                navigator.clipboard.writeText(friendCode).then(() => {
+                    alert("Friend code copied!");
+                }).catch(err => {
+                    console.error("Error copying text: ", err);
+                });
+            }
+        });
+
+        // Logout functionality
         document.getElementById("logout-btn").addEventListener("click", () => {
             localStorage.removeItem("user");
             alert("You have logged out.");
