@@ -80,12 +80,13 @@
         function initClient() {
             gapi.load('auth2', function() {
                 gapi.auth2.init({
-                    client_id: '461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com',  // Make sure this is the correct client ID
+                    client_id: '461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com',  // Replace with your actual client ID
                 }).then(function(auth2) {
                     console.log("Google Auth2 initialized successfully");
                     checkSignInStatus(auth2);
                 }).catch(function(error) {
                     console.error("Error initializing Google Auth:", error);
+                    alert("Failed to initialize Google Auth. Check the console for more details.");
                 });
             });
         }
@@ -122,7 +123,7 @@
                 window.location.href = "dashboard.html";  // Redirect to the dashboard page
             }).catch(function(error) {
                 console.error("Login error:", error);
-                alert("Login failed. Please try again.");
+                alert("Login failed. Please try again. Check the console for more details.");
             });
         }
 
