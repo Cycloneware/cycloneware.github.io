@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CycloneWare - Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>CycloneWare - Games</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><button id="logout-btn" class="logout-btn">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Explore Our Games</h2>
+        <p>Choose a game to play and enjoy your time on CycloneWare!</p>
+
+        <!-- Game List Section -->
+        <section id="game-list-section">
+            <ul id="game-list">
+                <!-- Example Game 1 -->
+                <li class="game-item">
+                    <h3>Game 1: Adventure Quest</h3>
+                    <p>Embark on an epic journey in this thrilling adventure game!</p>
+                    <button onclick="window.location.href='game1.html'">Play Adventure Quest</button>
+                </li>
+
+                <!-- Example Game 2 -->
+                <li class="game-item">
+                    <h3>Game 2: Battle Arena</h3>
+                    <p>Join the battle against fierce opponents in the ultimate arena.</p>
+                    <button onclick="window.location.href='game2.html'">Play Battle Arena</button>
+                </li>
+
+                <!-- Example Game 3 -->
+                <li class="game-item">
+                    <h3>Game 3: Puzzle Master</h3>
+                    <p>Test your puzzle-solving skills and become a Puzzle Master!</p>
+                    <button onclick="window.location.href='game3.html'">Play Puzzle Master</button>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        // Logout functionality
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            localStorage.removeItem("user");
+            alert("You have logged out.");
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>
