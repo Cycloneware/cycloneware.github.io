@@ -76,9 +76,17 @@
             const decoded = parseJwt(response.credential);
             console.log("User Info:", decoded);
 
-            // Save the login state
-            localStorage.setItem("user", JSON.stringify(decoded));
-            
+            // Generate a unique friend code
+            const friendCode = generateFriendCode();
+
+            // Save user data and friend code in localStorage
+            const userData = {
+                name: decoded.name,
+                email: decoded.email,
+                friendCode: friendCode
+            };
+            localStorage.setItem("user", JSON.stringify(userData));
+
             // Redirect to dashboard
             window.location.href = "dashboard.html";
         }
@@ -88,6 +96,11 @@
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             return JSON.parse(atob(base64));
+        }
+
+        // Generate a unique friend code (simple random string)
+        function generateFriendCode() {
+            return 'FW-' + Math.random().toString(36).substring(2, 10).toUpperCase();
         }
 
         // Show/hide login and logout buttons based on login state
