@@ -83,6 +83,8 @@
                     client_id: '461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com',
                 }).then(function(auth2) {
                     checkSignInStatus(auth2);
+                }).catch(function(error) {
+                    console.error("Error initializing Google Auth:", error);
                 });
             });
         }
@@ -112,8 +114,13 @@
         function handleLogin() {
             const auth2 = gapi.auth2.getAuthInstance();
             auth2.signIn().then(function() {
-                checkSignInStatus(auth2);  // Update UI after login
-                window.location.href = "dashboard.html";  // Redirect to dashboard after login
+                // Update UI after successful login
+                checkSignInStatus(auth2);
+                // Redirect to dashboard after login
+                window.location.href = "dashboard.html";  // Redirect to the dashboard page
+            }).catch(function(error) {
+                console.error("Login error:", error);
+                alert("Login failed. Please try again.");
             });
         }
 
@@ -123,6 +130,9 @@
             auth2.signOut().then(function() {
                 checkSignInStatus(auth2);  // Update UI after logout
                 window.location.href = "index.html";  // Redirect back to homepage after logout
+            }).catch(function(error) {
+                console.error("Logout error:", error);
+                alert("Logout failed. Please try again.");
             });
         }
 
