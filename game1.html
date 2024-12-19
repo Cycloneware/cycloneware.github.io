@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventure Quest - Game 1</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic game styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .game-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .game-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .game-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .game-buttons button {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .game-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .game-buttons button:disabled {
+            background-color: #d6d6d6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Adventure Quest</h1>
+        <p>Embark on an epic journey in this thrilling adventure!</p>
+    </header>
+
+    <div class="game-container">
+        <div id="game-text" class="game-text"></div>
+        <div id="game-buttons" class="game-buttons"></div>
+        <button id="back-btn" class="back-btn" onclick="window.location.href='games.html'">Back to Games</button>
+    </div>
+
+    <script>
+        let currentStage = 0;
+
+        const gameText = document.getElementById("game-text");
+        const gameButtons = document.getElementById("game-buttons");
+
+        const stages = [
+            {
+                text: "You are standing in front of a dark forest. Do you want to enter the forest or turn back?",
+                choices: [
+                    { text: "Enter the forest", action: () => nextStage(1) },
+                    { text: "Turn back", action: () => nextStage(2) }
+                ]
+            },
+            {
+                text: "As you walk deeper into the forest, you encounter a wild beast! Do you fight it or run away?",
+                choices: [
+                    { text: "Fight the beast", action: () => nextStage(3) },
+                    { text: "Run away", action: () => nextStage(4) }
+                ]
+            },
+            {
+                text: "You turned back safely and decided to rest in a nearby village. The adventure ends here.",
+                choices: []
+            },
+            {
+                text: "You bravely fought the beast and emerged victorious! You found a treasure chest filled with gold. Congratulations, you are rich!",
+                choices: []
+            },
+            {
+                text: "You ran away and found a hidden path that leads you out of the forest. You escape safely. The adventure ends here.",
+                choices: []
+            }
+        ];
+
+        function nextStage(stageNumber) {
+            currentStage = stageNumber;
+            renderStage();
+        }
+
+        function renderStage() {
+            const stage = stages[currentStage];
+            gameText.textContent = stage.text;
+
+            gameButtons.innerHTML = '';
+            stage.choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.textContent = choice.text;
+                button.addEventListener("click", choice.action);
+                gameButtons.appendChild(button);
+            });
+        }
+
+        // Start the game by rendering the first stage
+        renderStage();
+    </script>
+</body>
+</html>
