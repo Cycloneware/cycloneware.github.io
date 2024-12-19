@@ -58,6 +58,22 @@
         .stats span {
             font-weight: bold;
         }
+        .health-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .health-bar {
+            height: 20px;
+            width: 100%;
+            border-radius: 10px;
+            background-color: #76c7c0; /* Player health */
+            transition: width 0.5s ease;
+        }
+        .enemy-health-bar {
+            background-color: #f44336; /* Enemy health */
+        }
         .back-btn {
             margin-top: 20px;
             padding: 10px;
@@ -85,6 +101,21 @@
             <p><span>Inventory:</span> <span id="inventory"></span></p>
         </div>
         
+        <!-- Health bars -->
+        <div>
+            <p>Player's Health</p>
+            <div class="health-bar-container">
+                <div id="player-health-bar" class="health-bar"></div>
+            </div>
+        </div>
+        
+        <div>
+            <p>Enemy's Health</p>
+            <div class="health-bar-container">
+                <div id="enemy-health-bar" class="health-bar enemy-health-bar"></div>
+            </div>
+        </div>
+
         <!-- Text will appear here -->
         <div id="game-text" class="game-text"></div>
 
@@ -134,6 +165,19 @@
             document.getElementById("health").textContent = player.health;
             document.getElementById("gold").textContent = player.gold;
             document.getElementById("inventory").textContent = player.inventory.join(', ') || 'Empty';
+
+            // Update health bars
+            updateHealthBars();
+        }
+
+        // Update health bars for both player and enemy
+        function updateHealthBars() {
+            const playerHealthBar = document.getElementById("player-health-bar");
+            const enemyHealthBar = document.getElementById("enemy-health-bar");
+
+            // Update width of health bars based on current health
+            playerHealthBar.style.width = (player.health / 100) * 100 + '%';
+            enemyHealthBar.style.width = (enemy.health / 50) * 100 + '%'; // Assuming max enemy health is 50
         }
 
         // Function to start battle music
@@ -182,6 +226,8 @@
             enemy.health -= damage;
             gameText.textContent = `You attacked the ${enemy.name} for ${damage} damage. The beast has ${enemy.health} health left.`;
 
+            updateHealthBars();  // Update health bars after each action
+
             if (enemy.health <= 0) {
                 gameText.textContent = `You defeated the ${enemy.name}! You earned 50 gold.`;
                 player.gold += 50;
@@ -199,6 +245,8 @@
             player.health -= damage;
             gameText.textContent += `\nThe beast attacks you for ${damage} damage. You have ${player.health} health left.`;
 
+            updateHealthBars();  // Update health bars after enemy attack
+
             if (player.health <= 0) {
                 gameText.textContent = "You have been defeated by the wild beast. Game Over.";
                 stopBattleBGM();
@@ -212,6 +260,8 @@
             const damage = Math.max(0, enemy.attack - (player.defense * 2));  // Less damage when defending
             player.health -= damage;
             gameText.textContent = `You defended! The beast attacks you for ${damage} damage. You have ${player.health} health left.`;
+
+            updateHealthBars();  // Update health bars after defending
 
             if (player.health <= 0) {
                 gameText.textContent = "You have been defeated by the wild beast. Game Over.";
@@ -230,69 +280,37 @@
                 player.inventory = player.inventory.filter(item => item !== "Health Potion");  // Remove potion
                 gameText.textContent = `You used a health potion. You gained 30 health. Your current health is ${player.health}.`;
 
+                updateHealthBars();  // Update health bars after using an item
+
                 enemyTurn();
             } else {
-                gameText.textContent = "You don't have any items to use.";
+                gameText.textContent = "You don't have any items to use!";
                 enemyTurn();
             }
         }
 
-        // Game stages with decisions
-        const stages = [
-            {
-                text: "You are standing in front of a dark forest. Do you want to enter the forest or turn back?",
-                choices: [
-                    { text: "Enter the forest", action: () => nextStage(1) },
-                    { text: "Turn back", action: () => nextStage(2) }
-                ]
-            },
-            {
-                text: "As you walk deeper into the forest, you encounter a wild beast! Do you want to fight it?",
-                choices: [
-                    { text: "Fight the beast", action: () => startBattle() },
-                    { text: "Run away", action: () => nextStage(4) }
-                ]
-            },
-            {
-                text: "You turned back safely and decided to rest in a nearby village. The adventure ends here.",
-                choices: []
-            },
-            {
-                text: "You defeated the wild beast and found treasure! Your adventure continues.",
-                choices: [
-                    { text: "Continue exploring", action: () => nextStage(0) }
-                ]
-            },
-            {
-                text: "You ran away from the wild beast and escaped safely. The adventure ends here.",
-                choices: []
+        // Function for different stages
+        function nextStage(stage) {
+            currentStage = stage;
+            switch (stage) {
+                case 1:
+                    startBattle();
+                    break;
+                case 3:
+                    // Victory
+                    gameText.textContent += ` You gained 50 gold.`;
+                    break;
+                case 4:
+                    // Game Over
+                    gameText.textContent = "Game Over! Try again.";
+                    break;
             }
-        ];
-
-        function nextStage(stageNumber) {
-            currentStage = stageNumber;
-            renderStage();
+            updateStats();  // Update stats after stage change
         }
 
-        function renderStage() {
-            console.log("Rendering stage:", currentStage);  // Debugging log
-            const stage = stages[currentStage];
-            gameText.textContent = stage.text;
+        // Start the game by going to stage 1
+        nextStage(1);
 
-            // Update stats on the screen
-            updateStats();
-
-            gameButtons.innerHTML = '';
-            stage.choices.forEach(choice => {
-                const button = document.createElement("button");
-                button.textContent = choice.text;
-                button.addEventListener("click", choice.action);
-                gameButtons.appendChild(button);
-            });
-        }
-
-        // Start the game by rendering the first stage
-        renderStage();
     </script>
 </body>
 </html>
