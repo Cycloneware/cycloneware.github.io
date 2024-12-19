@@ -88,6 +88,12 @@
         <button id="back-btn" class="back-btn" onclick="window.location.href='games.html'">Back to Games</button>
     </div>
 
+    <!-- Battle BGM -->
+    <audio id="battle-bgm" loop>
+        <source src="bgm-battle.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
     <script>
         let currentStage = 0;
 
@@ -96,6 +102,16 @@
             health: 100,
             gold: 50,
             inventory: ['Sword'],
+            attack: 20,
+            defense: 5,
+        };
+
+        // Enemy stats
+        let enemy = {
+            name: "Wild Beast",
+            health: 50,
+            attack: 15,
+            defense: 3
         };
 
         const gameText = document.getElementById("game-text");
@@ -108,6 +124,90 @@
             document.getElementById("inventory").textContent = player.inventory.join(', ') || 'Empty';
         }
 
+        // Function to start battle music
+        function startBattleBGM() {
+            const bgm = document.getElementById("battle-bgm");
+            bgm.play();
+        }
+
+        // Stop battle music
+        function stopBattleBGM() {
+            const bgm = document.getElementById("battle-bgm");
+            bgm.pause();
+            bgm.currentTime = 0;  // Reset to start
+        }
+
+        // Battle system
+        function startBattle() {
+            startBattleBGM();
+            gameText.textContent = `A wild beast appears! It has ${enemy.health} health. Prepare for battle!`;
+
+            gameButtons.innerHTML = '';
+            gameButtons.innerHTML = `
+                <button onclick="attack()">Attack</button>
+                <button onclick="defend()">Defend</button>
+                <button onclick="useItem()">Use Item</button>
+            `;
+        }
+
+        // Player attack action
+        function attack() {
+            const damage = Math.max(0, player.attack - enemy.defense);
+            enemy.health -= damage;
+            gameText.textContent = `You attacked the ${enemy.name} for ${damage} damage. The beast has ${enemy.health} health left.`;
+
+            if (enemy.health <= 0) {
+                gameText.textContent = `You defeated the ${enemy.name}! You earned 50 gold.`;
+                player.gold += 50;
+                stopBattleBGM();
+                nextStage(3);  // Victory
+            } else {
+                enemyTurn();
+            }
+        }
+
+        // Enemy attack action
+        function enemyTurn() {
+            const damage = Math.max(0, enemy.attack - player.defense);
+            player.health -= damage;
+            gameText.textContent += `\nThe beast attacks you for ${damage} damage. You have ${player.health} health left.`;
+
+            if (player.health <= 0) {
+                gameText.textContent = "You have been defeated by the wild beast. Game Over.";
+                stopBattleBGM();
+                nextStage(4);  // Loss
+            }
+        }
+
+        // Defend action
+        function defend() {
+            const damage = Math.max(0, enemy.attack - (player.defense * 2));  // Less damage when defending
+            player.health -= damage;
+            gameText.textContent = `You defended! The beast attacks you for ${damage} damage. You have ${player.health} health left.`;
+
+            if (player.health <= 0) {
+                gameText.textContent = "You have been defeated by the wild beast. Game Over.";
+                stopBattleBGM();
+                nextStage(4);  // Loss
+            } else {
+                enemyTurn();
+            }
+        }
+
+        // Use item (example item: health potion)
+        function useItem() {
+            if (player.inventory.includes("Health Potion")) {
+                player.health += 30;  // Heal 30 health
+                player.inventory = player.inventory.filter(item => item !== "Health Potion");  // Remove potion
+                gameText.textContent = `You used a health potion. You gained 30 health. Your current health is ${player.health}.`;
+
+                enemyTurn();
+            } else {
+                gameText.textContent = "You don't have any items to use.";
+                enemyTurn();
+            }
+        }
+
         // Game stages with decisions
         const stages = [
             {
@@ -118,20 +218,9 @@
                 ]
             },
             {
-                text: "As you walk deeper into the forest, you encounter a wild beast! Do you fight it or run away?",
+                text: "As you walk deeper into the forest, you encounter a wild beast! Do you want to fight it?",
                 choices: [
-                    { 
-                        text: "Fight the beast", 
-                        action: () => {
-                            if (player.health < 50) {
-                                gameText.textContent = "You don't have enough health to fight the beast. You run away!";
-                                nextStage(4);
-                            } else {
-                                player.health -= 30; // Lost health from battle
-                                nextStage(3);
-                            }
-                        } 
-                    },
+                    { text: "Fight the beast", action: () => startBattle() },
                     { text: "Run away", action: () => nextStage(4) }
                 ]
             },
@@ -140,11 +229,13 @@
                 choices: []
             },
             {
-                text: "You bravely fought the beast and emerged victorious! You found a treasure chest filled with gold. Congratulations, you are rich!",
-                choices: []
+                text: "You defeated the wild beast and found treasure! Your adventure continues.",
+                choices: [
+                    { text: "Continue exploring", action: () => nextStage(0) }
+                ]
             },
             {
-                text: "You ran away and found a hidden path that leads you out of the forest. You escape safely. The adventure ends here.",
+                text: "You ran away from the wild beast and escaped safely. The adventure ends here.",
                 choices: []
             }
         ];
