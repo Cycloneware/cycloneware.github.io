@@ -113,6 +113,7 @@
             const auth2 = gapi.auth2.getAuthInstance();
             auth2.signIn().then(function() {
                 checkSignInStatus(auth2);  // Update UI after login
+                window.location.href = "dashboard.html";  // Redirect to dashboard after login
             });
         }
 
@@ -121,6 +122,7 @@
             const auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function() {
                 checkSignInStatus(auth2);  // Update UI after logout
+                window.location.href = "index.html";  // Redirect back to homepage after logout
             });
         }
 
