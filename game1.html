@@ -139,6 +139,7 @@
 
     <script>
         let currentStage = 0;
+        let isBattleOver = false; // To track if the battle is over
 
         // Player stats
         let player = {
@@ -214,14 +215,15 @@
 
             gameButtons.innerHTML = '';
             gameButtons.innerHTML = `
-                <button onclick="attack()">Attack</button>
-                <button onclick="defend()">Defend</button>
-                <button onclick="useItem()">Use Item</button>
+                <button onclick="attack()" id="attack-btn">Attack</button>
+                <button onclick="defend()" id="defend-btn">Defend</button>
+                <button onclick="useItem()" id="use-item-btn">Use Item</button>
             `;
         }
 
         // Player attack action
         function attack() {
+            if (isBattleOver) return; // Prevent actions after battle is over
             const damage = Math.max(0, player.attack - enemy.defense);
             enemy.health -= damage;
             gameText.textContent = `You attacked the ${enemy.name} for ${damage} damage. The beast has ${enemy.health} health left.`;
@@ -241,6 +243,7 @@
 
         // Enemy attack action
         function enemyTurn() {
+            if (isBattleOver) return; // Prevent actions after battle is over
             const damage = Math.max(0, enemy.attack - player.defense);
             player.health -= damage;
             gameText.textContent += `\nThe beast attacks you for ${damage} damage. You have ${player.health} health left.`;
@@ -257,6 +260,7 @@
 
         // Defend action
         function defend() {
+            if (isBattleOver) return; // Prevent actions after battle is over
             const damage = Math.max(0, enemy.attack - (player.defense * 2));  // Less damage when defending
             player.health -= damage;
             gameText.textContent = `You defended! The beast attacks you for ${damage} damage. You have ${player.health} health left.`;
@@ -275,6 +279,7 @@
 
         // Use item (example item: health potion)
         function useItem() {
+            if (isBattleOver) return; // Prevent actions after battle is over
             if (player.inventory.includes("Health Potion")) {
                 player.health += 30;  // Heal 30 health
                 player.inventory = player.inventory.filter(item => item !== "Health Potion");  // Remove potion
@@ -299,13 +304,24 @@
                 case 3:
                     // Victory
                     gameText.textContent += ` You gained 50 gold.`;
+                    isBattleOver = true; // End battle
+                    disableButtons(); // Disable all action buttons
                     break;
                 case 4:
                     // Game Over
                     gameText.textContent = "Game Over! Try again.";
+                    isBattleOver = true; // End battle
+                    disableButtons(); // Disable all action buttons
                     break;
             }
             updateStats();  // Update stats after stage change
+        }
+
+        // Disable all battle action buttons
+        function disableButtons() {
+            document.getElementById("attack-btn").disabled = true;
+            document.getElementById("defend-btn").disabled = true;
+            document.getElementById("use-item-btn").disabled = true;
         }
 
         // Start the game by going to stage 1
