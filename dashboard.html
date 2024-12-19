@@ -86,6 +86,14 @@
             document.getElementById("friend-code-input").value = '';  // Clear the input
         });
 
+        // Remove Friend functionality
+        function removeFriend(friendCode) {
+            let friendList = JSON.parse(localStorage.getItem("friendList")) || [];
+            friendList = friendList.filter(friend => friend !== friendCode);
+            localStorage.setItem("friendList", JSON.stringify(friendList));
+            displayFriends(); // Update the displayed friend list
+        }
+
         // Display the friend's list
         function displayFriends() {
             const friendList = JSON.parse(localStorage.getItem("friendList")) || [];
@@ -98,6 +106,16 @@
                 friendList.forEach(friend => {
                     const li = document.createElement('li');
                     li.textContent = friend;
+
+                    // Add delete button
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.classList.add('delete-btn');
+                    deleteButton.addEventListener('click', () => {
+                        removeFriend(friend);
+                    });
+
+                    li.appendChild(deleteButton);
                     friendListElement.appendChild(li);
                 });
             }
