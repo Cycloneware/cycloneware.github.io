@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CycloneWare - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            text-align: center;
+            margin: 100px auto;
+            padding: 20px;
+            background: #333;
+            border-radius: 10px;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .g-signin2 {
+            display: inline-block;
+        }
+    </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <header>
+        <h1>CycloneWare</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="login-container">
+            <h2>Login with Google</h2>
+            <div id="g_id_onload"
+                data-client_id="461434289159-ga3odshnftie2n8g15tl28lgrgtoriib.apps.googleusercontent.com"
+                data-callback="handleCredentialResponse"
+                data-auto_prompt="true">
+            </div>
+            <div class="g_id_signin"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-size="large"
+                data-logo_alignment="left">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 CycloneWare. All rights reserved.</p>
+    </footer>
+    <script>
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            // Send the ID token to your server for validation
+        }
+    </script>
+</body>
+</html>
