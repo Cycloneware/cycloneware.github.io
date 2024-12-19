@@ -139,6 +139,7 @@
 
         // Battle system
         function startBattle() {
+            console.log("Battle Started");  // Debugging log
             startBattleBGM();
             gameText.textContent = `A wild beast appears! It has ${enemy.health} health. Prepare for battle!`;
 
@@ -246,6 +247,7 @@
         }
 
         function renderStage() {
+            console.log("Rendering stage:", currentStage);  // Debugging log
             const stage = stages[currentStage];
             gameText.textContent = stage.text;
 
