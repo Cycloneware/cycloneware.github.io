@@ -37,6 +37,12 @@
             <p id="add-friend-error" style="color: red; display: none;">Invalid or duplicate friend code!</p>
         </section>
 
+        <!-- Notification Section -->
+        <section id="notification-section">
+            <button id="notification-btn" class="notification-btn">Notifications <span id="notification-count">0</span></button>
+            <ul id="notification-list" class="notification-list" style="display:none;"></ul>
+        </section>
+
         <!-- Friend List Section -->
         <section id="friend-list-section">
             <h3>Your Friends:</h3>
@@ -74,6 +80,10 @@
                 if (!friendList.includes(inputCode)) {
                     friendList.push(inputCode);
                     localStorage.setItem("friendList", JSON.stringify(friendList));
+
+                    // Add a notification when someone friends you
+                    addNotification(inputCode);
+
                     displayFriends();
                     errorElement.style.display = "none";
                     alert("Friend added!");
@@ -86,12 +96,12 @@
             document.getElementById("friend-code-input").value = '';  // Clear the input
         });
 
-        // Remove Friend functionality
-        function removeFriend(friendCode) {
-            let friendList = JSON.parse(localStorage.getItem("friendList")) || [];
-            friendList = friendList.filter(friend => friend !== friendCode);
-            localStorage.setItem("friendList", JSON.stringify(friendList));
-            displayFriends(); // Update the displayed friend list
+        // Add a notification
+        function addNotification(friendCode) {
+            let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+            notifications.push(`You have a new friend request from ${friendCode}`);
+            localStorage.setItem("notifications", JSON.stringify(notifications));
+            updateNotificationCount();
         }
 
         // Display the friend's list
@@ -121,15 +131,56 @@
             }
         }
 
-        // Initialize friend list on page load
+        // Remove Friend functionality
+        function removeFriend(friendCode) {
+            let friendList = JSON.parse(localStorage.getItem("friendList")) || [];
+            friendList = friendList.filter(friend => friend !== friendCode);
+            localStorage.setItem("friendList", JSON.stringify(friendList));
+            displayFriends(); // Update the displayed friend list
+        }
+
+        // Show Notifications
+        document.getElementById("notification-btn").addEventListener("click", () => {
+            const notificationListElement = document.getElementById("notification-list");
+            notificationListElement.style.display = notificationListElement.style.display === 'none' ? 'block' : 'none';
+            displayNotifications();
+        });
+
+        // Display Notifications
+        function displayNotifications() {
+            const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+            const notificationListElement = document.getElementById("notification-list");
+            notificationListElement.innerHTML = '';
+
+            if (notifications.length === 0) {
+                notificationListElement.innerHTML = '<li>No new notifications.</li>';
+            } else {
+                notifications.forEach(notification => {
+                    const li = document.createElement('li');
+                    li.textContent = notification;
+                    notificationListElement.appendChild(li);
+                });
+            }
+        }
+
+        // Update notification count
+        function updateNotificationCount() {
+            const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+            document.getElementById("notification-count").textContent = notifications.length;
+        }
+
+        // Initialize friend list and notifications on page load
         window.onload = () => {
             displayFriends();
+            updateNotificationCount();
+            displayNotifications();
         };
 
         // Logout functionality
         document.getElementById("logout-btn").addEventListener("click", () => {
             localStorage.removeItem("user");
             localStorage.removeItem("friendList");
+            localStorage.removeItem("notifications");
             alert("You have logged out.");
             window.location.href = "index.html";
         });
