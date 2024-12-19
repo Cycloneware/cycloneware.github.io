@@ -28,6 +28,20 @@
             <p id="friend-code"></p>
             <button id="copy-code-btn">Copy Friend Code</button>
         </section>
+
+        <!-- Add Friend Section -->
+        <section id="add-friend-section">
+            <h3>Add a Friend:</h3>
+            <input type="text" id="friend-code-input" placeholder="Enter friend's friend code">
+            <button id="add-friend-btn">Add Friend</button>
+            <p id="add-friend-error" style="color: red; display: none;">Invalid or duplicate friend code!</p>
+        </section>
+
+        <!-- Friend List Section -->
+        <section id="friend-list-section">
+            <h3>Your Friends:</h3>
+            <ul id="friend-list"></ul>
+        </section>
     </main>
 
     <script>
@@ -49,9 +63,55 @@
             }
         });
 
+        // Add Friend functionality
+        document.getElementById("add-friend-btn").addEventListener("click", () => {
+            const inputCode = document.getElementById("friend-code-input").value.trim();
+            const errorElement = document.getElementById("add-friend-error");
+            if (inputCode && inputCode !== user.friendCode) {
+                let friendList = JSON.parse(localStorage.getItem("friendList")) || [];
+                
+                // Check if the code is already in the friend list
+                if (!friendList.includes(inputCode)) {
+                    friendList.push(inputCode);
+                    localStorage.setItem("friendList", JSON.stringify(friendList));
+                    displayFriends();
+                    errorElement.style.display = "none";
+                    alert("Friend added!");
+                } else {
+                    errorElement.style.display = "inline";
+                }
+            } else {
+                errorElement.style.display = "inline";
+            }
+            document.getElementById("friend-code-input").value = '';  // Clear the input
+        });
+
+        // Display the friend's list
+        function displayFriends() {
+            const friendList = JSON.parse(localStorage.getItem("friendList")) || [];
+            const friendListElement = document.getElementById("friend-list");
+            friendListElement.innerHTML = '';
+
+            if (friendList.length === 0) {
+                friendListElement.innerHTML = '<li>No friends added yet!</li>';
+            } else {
+                friendList.forEach(friend => {
+                    const li = document.createElement('li');
+                    li.textContent = friend;
+                    friendListElement.appendChild(li);
+                });
+            }
+        }
+
+        // Initialize friend list on page load
+        window.onload = () => {
+            displayFriends();
+        };
+
         // Logout functionality
         document.getElementById("logout-btn").addEventListener("click", () => {
             localStorage.removeItem("user");
+            localStorage.removeItem("friendList");
             alert("You have logged out.");
             window.location.href = "index.html";
         });
