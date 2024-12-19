@@ -6,7 +6,6 @@
     <title>Adventure Quest - Game 1</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Basic game styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -51,6 +50,25 @@
         .game-buttons button:disabled {
             background-color: #d6d6d6;
         }
+        .stats {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .stats span {
+            font-weight: bold;
+        }
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d9534f;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        .back-btn:hover {
+            background-color: #c9302c;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +78,11 @@
     </header>
 
     <div class="game-container">
+        <div class="stats">
+            <p><span>Health:</span> <span id="health"></span></p>
+            <p><span>Gold:</span> <span id="gold"></span></p>
+            <p><span>Inventory:</span> <span id="inventory"></span></p>
+        </div>
         <div id="game-text" class="game-text"></div>
         <div id="game-buttons" class="game-buttons"></div>
         <button id="back-btn" class="back-btn" onclick="window.location.href='games.html'">Back to Games</button>
@@ -68,9 +91,24 @@
     <script>
         let currentStage = 0;
 
+        // Player stats
+        let player = {
+            health: 100,
+            gold: 50,
+            inventory: ['Sword'],
+        };
+
         const gameText = document.getElementById("game-text");
         const gameButtons = document.getElementById("game-buttons");
 
+        // Update the player's stats display
+        function updateStats() {
+            document.getElementById("health").textContent = player.health;
+            document.getElementById("gold").textContent = player.gold;
+            document.getElementById("inventory").textContent = player.inventory.join(', ') || 'Empty';
+        }
+
+        // Game stages with decisions
         const stages = [
             {
                 text: "You are standing in front of a dark forest. Do you want to enter the forest or turn back?",
@@ -82,7 +120,18 @@
             {
                 text: "As you walk deeper into the forest, you encounter a wild beast! Do you fight it or run away?",
                 choices: [
-                    { text: "Fight the beast", action: () => nextStage(3) },
+                    { 
+                        text: "Fight the beast", 
+                        action: () => {
+                            if (player.health < 50) {
+                                gameText.textContent = "You don't have enough health to fight the beast. You run away!";
+                                nextStage(4);
+                            } else {
+                                player.health -= 30; // Lost health from battle
+                                nextStage(3);
+                            }
+                        } 
+                    },
                     { text: "Run away", action: () => nextStage(4) }
                 ]
             },
@@ -108,6 +157,9 @@
         function renderStage() {
             const stage = stages[currentStage];
             gameText.textContent = stage.text;
+
+            // Update stats on the screen
+            updateStats();
 
             gameButtons.innerHTML = '';
             stage.choices.forEach(choice => {
