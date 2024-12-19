@@ -21,6 +21,15 @@
         .g-signin2 {
             display: inline-block;
         }
+        .logout-btn {
+            display: none;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -32,7 +41,8 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="games.html">Games</a></li>
                 <li><a href="community.html">Community</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li id="login-menu"><a href="login.html">Login</a></li>
+                <li><button id="logout-btn" class="logout-btn">Logout</button></li>
             </ul>
         </nav>
     </header>
@@ -58,10 +68,53 @@
         <p>&copy; 2024 CycloneWare. All rights reserved.</p>
     </footer>
     <script>
+        // Handle login response
         function handleCredentialResponse(response) {
             console.log("Encoded JWT ID token: " + response.credential);
-            // Send the ID token to your server for validation
+
+            // Decode and process the token (if needed)
+            const decoded = parseJwt(response.credential);
+            console.log("User Info:", decoded);
+
+            // Save the login state
+            localStorage.setItem("user", JSON.stringify(decoded));
+            
+            // Redirect to dashboard
+            window.location.href = "dashboard.html";
         }
+
+        // Decode JWT token (optional for debugging)
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(atob(base64));
+        }
+
+        // Show/hide login and logout buttons based on login state
+        function updateUI() {
+            const user = localStorage.getItem("user");
+            const loginMenu = document.getElementById("login-menu");
+            const logoutBtn = document.getElementById("logout-btn");
+
+            if (user) {
+                loginMenu.style.display = "none";
+                logoutBtn.style.display = "inline-block";
+            } else {
+                loginMenu.style.display = "inline-block";
+                logoutBtn.style.display = "none";
+            }
+        }
+
+        // Logout functionality
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            localStorage.removeItem("user");
+            updateUI();
+            alert("You have logged out.");
+            window.location.href = "index.html"; // Redirect to homepage
+        });
+
+        // Initialize UI on page load
+        window.onload = updateUI;
     </script>
 </body>
 </html>
