@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CycloneWare - Play Your Favorite Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>CycloneWare</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>Welcome to CycloneWare!</h2>
+            <p>Your ultimate gaming platform where fun meets excitement.</p>
+            <button onclick="location.href='#games'">Play Now</button>
+        </section>
+
+        <section id="games">
+            <h2>Featured Games</h2>
+            <div class="game-cards">
+                <div class="game-card">
+                    <img src="game1-thumbnail.jpg" alt="Game 1">
+                    <h3>Game Title 1</h3>
+                    <button onclick="startGame('game1')">Play Game 1</button>
+                </div>
+                <div class="game-card">
+                    <img src="game2-thumbnail.jpg" alt="Game 2">
+                    <h3>Game Title 2</h3>
+                    <button onclick="startGame('game2')">Play Game 2</button>
+                </div>
+                <div class="game-card">
+                    <img src="game3-thumbnail.jpg" alt="Game 3">
+                    <h3>Game Title 3</h3>
+                    <button onclick="startGame('game3')">Play Game 3</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>About CycloneWare</h2>
+            <p>CycloneWare is a gaming platform where you can enjoy a variety of browser-based games built with cutting-edge HTML and JavaScript. Join us today and experience the thrill!</p>
+        </section>
+        
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Have questions or feedback? Reach out to us at <a href="mailto:contact@cycloneware.io">contact@cycloneware.io</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 CycloneWare. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
