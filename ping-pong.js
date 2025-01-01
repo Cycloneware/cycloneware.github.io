@@ -15,6 +15,15 @@ let ballSpeedY = 5;
 let player1Score = 0;
 let player2Score = 0;
 
+// Paddle movement speed
+const paddleSpeed = 6; // Adjust speed as needed
+
+// Track key states for continuous movement
+let player1Up = false;
+let player1Down = false;
+let player2Up = false;
+let player2Down = false;
+
 // Draw functions
 function drawPaddles() {
     ctx.fillStyle = 'white';
@@ -70,22 +79,49 @@ function resetBall() {
 
 // Paddle movement functions
 function movePaddles() {
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp' && player2Y > 0) {
-            player2Y -= 30;
-        } else if (e.key === 'ArrowDown' && player2Y < canvas.height - paddleHeight) {
-            player2Y += 30;
-        }
-    });
+    if (player1Up && player1Y > 0) {
+        player1Y -= paddleSpeed;
+    }
+    if (player1Down && player1Y < canvas.height - paddleHeight) {
+        player1Y += paddleSpeed;
+    }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'w' && player1Y > 0) {
-            player1Y -= 30;
-        } else if (e.key === 's' && player1Y < canvas.height - paddleHeight) {
-            player1Y += 30;
-        }
-    });
+    if (player2Up && player2Y > 0) {
+        player2Y -= paddleSpeed;
+    }
+    if (player2Down && player2Y < canvas.height - paddleHeight) {
+        player2Y += paddleSpeed;
+    }
 }
+
+// Handle key events for continuous movement
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'w') {
+        player1Up = true;
+    } else if (e.key === 's') {
+        player1Down = true;
+    }
+
+    if (e.key === 'ArrowUp') {
+        player2Up = true;
+    } else if (e.key === 'ArrowDown') {
+        player2Down = true;
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'w') {
+        player1Up = false;
+    } else if (e.key === 's') {
+        player1Down = false;
+    }
+
+    if (e.key === 'ArrowUp') {
+        player2Up = false;
+    } else if (e.key === 'ArrowDown') {
+        player2Down = false;
+    }
+});
 
 // Game update function
 function update() {
