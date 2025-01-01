@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #282c34;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.game-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #3c3f47;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.scrambled-word {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+input {
+    padding: 10px;
+    font-size: 1em;
+    width: calc(100% - 22px);
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    background-color: #61dafb;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.hidden {
+    display: none;
+}
+
+button:hover {
+    background-color: #21a1f1;
+}
+
+.scoreboard {
+    margin-top: 20px;
+}
+
+.scoreboard p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+#feedback {
+    margin-top: 10px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#feedback.correct {
+    color: #61dafb;
+}
+
+#feedback.wrong {
+    color: #f54242;
+}
