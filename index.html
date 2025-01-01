@@ -3,66 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CycloneWare - Play Your Favorite Games</title>
+    <title>Games - CycloneWare</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="logo">
-            <h1>CycloneWare</h1>
+            <h1>CycloneWare Games</h1>
         </div>
         <nav>
             <ul>
-                <li><a href="#games">Games</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="games.html" class="active">Games</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="intro">
-            <h2>Welcome to CycloneWare!</h2>
-            <p>Your ultimate gaming platform where fun meets excitement.</p>
-            <button onclick="location.href='#games'">Play Now</button>
-        </section>
+        <section class="games-list">
+            <h2>Mini Games</h2>
+            <p>Here are some fun mini-games you can play on CycloneWare! Select a game to begin:</p>
 
-        <section id="games">
-            <h2>Featured Games</h2>
-            <div class="game-cards">
-                <div class="game-card">
-                    <img src="game1-thumbnail.jpg" alt="Game 1">
-                    <h3>Game Title 1</h3>
-                    <button onclick="startGame('game1')">Play Game 1</button>
-                </div>
-                <div class="game-card">
-                    <img src="game2-thumbnail.jpg" alt="Game 2">
-                    <h3>Game Title 2</h3>
-                    <button onclick="startGame('game2')">Play Game 2</button>
-                </div>
-                <div class="game-card">
-                    <img src="game3-thumbnail.jpg" alt="Game 3">
-                    <h3>Game Title 3</h3>
-                    <button onclick="startGame('game3')">Play Game 3</button>
-                </div>
+            <!-- Game 1 -->
+            <div class="game-card">
+                <h3>Ping Pong</h3>
+                <p>A fast-paced ping pong game. Try to keep the ball in play while outscoring your opponent!</p>
+                <button onclick="location.href='ping-pong.html'">Play Ping Pong</button>
             </div>
-        </section>
 
-        <section id="about">
-            <h2>About CycloneWare</h2>
-            <p>CycloneWare is a gaming platform where you can enjoy a variety of browser-based games built with cutting-edge HTML and JavaScript. Join us today and experience the thrill!</p>
-        </section>
-        
-        <section id="contact">
-            <h2>Contact Us</h2>
-            <p>Have questions or feedback? Reach out to us at <a href="mailto:contact@cycloneware.io">contact@cycloneware.io</a></p>
+            <!-- Game 2 -->
+            <div class="game-card">
+                <h3>Memory Match</h3>
+                <p>Test your memory skills with this classic card-matching game. Can you find all the pairs?</p>
+                <button onclick="location.href='memory-match.html'">Play Memory Match</button>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="game-card">
+                <h3>Platform Jump</h3>
+                <p>Jump your way through the platforms and try to reach the highest point! Avoid falling off.</p>
+                <button onclick="location.href='platform-jump.html'">Play Platform Jump</button>
+            </div>
+
+            <!-- Game 4 -->
+            <div class="game-card">
+                <h3>Space Shooter</h3>
+                <p>Take control of a spaceship and shoot down incoming enemies in this space battle game.</p>
+                <button onclick="location.href='space-shooter.html'">Play Space Shooter</button>
+            </div>
+
+            <!-- Game 5 -->
+            <div class="game-card">
+                <h3>Catch the Falling Objects</h3>
+                <p>Objects are falling from the sky. Catch them before they hit the ground! How many can you catch?</p>
+                <button onclick="location.href='falling-objects.html'">Play Falling Objects</button>
+            </div>
+
+            <!-- Game 6 -->
+            <div class="game-card">
+                <h3>Color Matching</h3>
+                <p>Match the falling colors to the correct color box. It's a race against time!</p>
+                <button onclick="location.href='color-matching.html'">Play Color Matching</button>
+            </div>
+
+            <!-- Game 7 -->
+            <div class="game-card">
+                <h3>Maze Runner</h3>
+                <p>Navigate through a maze and try to find the exit before time runs out!</p>
+                <button onclick="location.href='maze-runner.html'">Play Maze Runner</button>
+            </div>
+
+            <!-- Game 8 -->
+            <div class="game-card">
+                <h3>Word Scramble</h3>
+                <p>Unscramble the letters to form words. The faster you solve, the more points you earn!</p>
+                <button onclick="location.href='word-scramble.html'">Play Word Scramble</button>
+            </div>
+
+            <!-- Game 9 -->
+            <div class="game-card">
+                <h3>Bubble Pop</h3>
+                <p>Pop the bubbles before they reach the top! The more you pop, the higher your score!</p>
+                <button onclick="location.href='bubble-pop.html'">Play Bubble Pop</button>
+            </div>
+
+            <!-- Game 10 -->
+            <div class="game-card">
+                <h3>Speed Typer</h3>
+                <p>Type the words as fast as you can. Each level gets progressively harder!</p>
+                <button onclick="location.href='speed-typer.html'">Play Speed Typer</button>
+            </div>
+
         </section>
     </main>
 
     <footer>
         <p>&copy; 2024 CycloneWare. All rights reserved.</p>
     </footer>
-
-    <script src="scripts.js"></script>
 </body>
 </html>
