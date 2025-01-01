@@ -3,104 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games - CycloneWare</title>
+    <title>CycloneWare - Homepage</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="logo">
-            <h1>CycloneWare Games</h1>
+            <h1>CycloneWare</h1>
+            <p>Your platform for gaming, social interaction, and more.</p>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="news.html">News</a></li>
-                <li><a href="games.html" class="active">Games</a></li>
+                <li><a href="games.html">Games</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section class="games-list">
-            <h2>Mini Games</h2>
-            <p>Here are some fun mini-games you can play on CycloneWare! Select a game to begin:</p>
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Welcome to CycloneWare</h2>
+            <p>Exciting games, social connections, and endless fun await. Join us now!</p>
+            <a href="games.html" class="cta-button">Start Playing</a>
+        </div>
+    </section>
 
-            <!-- Game 1 -->
-            <div class="game-card">
-                <h3>Ping Pong</h3>
-                <p>A fast-paced ping pong game. Try to keep the ball in play while outscoring your opponent!</p>
-                <button onclick="location.href='ping-pong.html'">Play Ping Pong</button>
+    <section class="about">
+        <h2>About CycloneWare</h2>
+        <p>CycloneWare is a platform dedicated to providing engaging games, social experiences, and exciting updates. Whether you're looking for mini-games to pass the time or a platform to interact with others, CycloneWare has it all. Join our growing community and experience all the fun!</p>
+    </section>
+
+    <section class="features">
+        <h2>Features</h2>
+        <div class="feature-list">
+            <div class="feature">
+                <h3>Mini Games</h3>
+                <p>Play a variety of mini-games and challenge your friends! From platformers to shooters, there’s something for everyone.</p>
             </div>
-
-            <!-- Game 2 -->
-            <div class="game-card">
-                <h3>Memory Match</h3>
-                <p>Test your memory skills with this classic card-matching game. Can you find all the pairs?</p>
-                <button onclick="location.href='memory-match.html'">Play Memory Match</button>
+            <div class="feature">
+                <h3>Multiplayer</h3>
+                <p>Join our servers and play with people from around the world! Team up or go head-to-head in exciting multiplayer games.</p>
             </div>
-
-            <!-- Game 3 -->
-            <div class="game-card">
-                <h3>Platform Jump</h3>
-                <p>Jump your way through the platforms and try to reach the highest point! Avoid falling off.</p>
-                <button onclick="location.href='platform-jump.html'">Play Platform Jump</button>
+            <div class="feature">
+                <h3>Community</h3>
+                <p>Connect with others on our platform. Join our Discord server to chat with fellow CycloneWare users!</p>
             </div>
+        </div>
+    </section>
 
-            <!-- Game 4 -->
-            <div class="game-card">
-                <h3>Space Shooter</h3>
-                <p>Take control of a spaceship and shoot down incoming enemies in this space battle game.</p>
-                <button onclick="location.href='space-shooter.html'">Play Space Shooter</button>
-            </div>
+    <section class="news-preview">
+        <h2>Latest News</h2>
+        <div class="news-article">
+            <h3>Grand Opening - Site in Early Construction</h3>
+            <p>Posted on December 26, 2024: Welcome to CycloneWare! We’re excited to have you here. The site is still under construction, but stay tuned for many exciting updates!</p>
+            <a href="news.html">Read More</a>
+        </div>
+        <div class="news-article">
+            <h3>Looking to the Future</h3>
+            <p>Posted on December 26, 2024: We are developing exciting new features like Cyclone Life and Cyclone Social. Stay tuned as we push forward to make these projects a reality!</p>
+            <a href="news.html">Read More</a>
+        </div>
+    </section>
 
-            <!-- Game 5 -->
-            <div class="game-card">
-                <h3>Catch the Falling Objects</h3>
-                <p>Objects are falling from the sky. Catch them before they hit the ground! How many can you catch?</p>
-                <button onclick="location.href='falling-objects.html'">Play Falling Objects</button>
-            </div>
-
-            <!-- Game 6 -->
-            <div class="game-card">
-                <h3>Color Matching</h3>
-                <p>Match the falling colors to the correct color box. It's a race against time!</p>
-                <button onclick="location.href='color-matching.html'">Play Color Matching</button>
-            </div>
-
-            <!-- Game 7 -->
-            <div class="game-card">
-                <h3>Maze Runner</h3>
-                <p>Navigate through a maze and try to find the exit before time runs out!</p>
-                <button onclick="location.href='maze-runner.html'">Play Maze Runner</button>
-            </div>
-
-            <!-- Game 8 -->
-            <div class="game-card">
-                <h3>Word Scramble</h3>
-                <p>Unscramble the letters to form words. The faster you solve, the more points you earn!</p>
-                <button onclick="location.href='word-scramble.html'">Play Word Scramble</button>
-            </div>
-
-            <!-- Game 9 -->
-            <div class="game-card">
-                <h3>Bubble Pop</h3>
-                <p>Pop the bubbles before they reach the top! The more you pop, the higher your score!</p>
-                <button onclick="location.href='bubble-pop.html'">Play Bubble Pop</button>
-            </div>
-
-            <!-- Game 10 -->
-            <div class="game-card">
-                <h3>Speed Typer</h3>
-                <p>Type the words as fast as you can. Each level gets progressively harder!</p>
-                <button onclick="location.href='speed-typer.html'">Play Speed Typer</button>
-            </div>
-
-        </section>
-    </main>
+    <section class="games-preview">
+        <h2>Explore Our Mini-Games</h2>
+        <div class="game-card">
+            <h3>Ping Pong</h3>
+            <p>A fast-paced ping pong game. Test your reflexes and compete for the highest score!</p>
+            <a href="ping-pong.html" class="cta-button">Play Now</a>
+        </div>
+        <div class="game-card">
+            <h3>Memory Match</h3>
+            <p>Can you match all the pairs in the least time? Challenge yourself with this fun memory game.</p>
+            <a href="memory-match.html" class="cta-button">Play Now</a>
+        </div>
+    </section>
 
     <footer>
-        <p>&copy; 2024 CycloneWare. All rights reserved.</p>
+        <div class="footer-content">
+            <p>&copy; 2024 CycloneWare. All rights reserved.</p>
+            <ul>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
     </footer>
 </body>
 </html>
