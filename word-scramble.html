@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble</title>
+    <link rel="stylesheet" href="word-scramble.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Word Scramble</h1>
+        <div id="scrambled-word" class="scrambled-word"></div>
+        <input type="text" id="user-input" placeholder="Type your guess here..." />
+        <button id="submit-btn">Submit</button>
+        <div id="feedback"></div>
+        <div class="scoreboard">
+            <p>Score: <span id="score">0</span></p>
+            <p>Lives: <span id="lives">3</span></p>
+        </div>
+        <button id="restart-btn" class="hidden">Restart Game</button>
+    </div>
+    <script src="word-scramble.js"></script>
+</body>
+</html>
