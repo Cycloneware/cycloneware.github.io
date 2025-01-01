@@ -16,19 +16,18 @@ let player1Score = 0;
 let player2Score = 0;
 
 // Paddle movement speed
-const paddleSpeed = 6; // Adjust speed as needed
+const paddleSpeed = 6; // Adjust speed for Player 2 (human)
+const aiSpeed = 4; // AI speed for Player 1 (computer-controlled)
 
-// Track key states for continuous movement
-let player1Up = false;
-let player1Down = false;
+// Track key states for Player 2 (human)
 let player2Up = false;
 let player2Down = false;
 
 // Draw functions
 function drawPaddles() {
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, player1Y, paddleWidth, paddleHeight); // Left paddle (Player 1)
-    ctx.fillRect(canvas.width - paddleWidth, player2Y, paddleWidth, paddleHeight); // Right paddle (Player 2)
+    ctx.fillRect(0, player1Y, paddleWidth, paddleHeight); // Left paddle (AI controlled Player 1)
+    ctx.fillRect(canvas.width - paddleWidth, player2Y, paddleWidth, paddleHeight); // Right paddle (Player 2, human)
 }
 
 function drawBall() {
@@ -79,13 +78,18 @@ function resetBall() {
 
 // Paddle movement functions
 function movePaddles() {
-    if (player1Up && player1Y > 0) {
-        player1Y -= paddleSpeed;
-    }
-    if (player1Down && player1Y < canvas.height - paddleHeight) {
-        player1Y += paddleSpeed;
+    // AI movement for Player 1 (computer)
+    if (ballY < player1Y + paddleHeight / 2) {
+        player1Y -= aiSpeed; // Move up
+    } else if (ballY > player1Y + paddleHeight / 2) {
+        player1Y += aiSpeed; // Move down
     }
 
+    // Restrict AI paddle to within canvas bounds
+    if (player1Y < 0) player1Y = 0;
+    if (player1Y > canvas.height - paddleHeight) player1Y = canvas.height - paddleHeight;
+
+    // Human-controlled Player 2
     if (player2Up && player2Y > 0) {
         player2Y -= paddleSpeed;
     }
@@ -94,31 +98,19 @@ function movePaddles() {
     }
 }
 
-// Handle key events for continuous movement
+// Handle key events for Player 2 (human)
 document.addEventListener('keydown', (e) => {
     if (e.key === 'w') {
-        player1Up = true;
-    } else if (e.key === 's') {
-        player1Down = true;
-    }
-
-    if (e.key === 'ArrowUp') {
         player2Up = true;
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 's') {
         player2Down = true;
     }
 });
 
 document.addEventListener('keyup', (e) => {
     if (e.key === 'w') {
-        player1Up = false;
-    } else if (e.key === 's') {
-        player1Down = false;
-    }
-
-    if (e.key === 'ArrowUp') {
         player2Up = false;
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 's') {
         player2Down = false;
     }
 });
