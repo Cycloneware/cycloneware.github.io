@@ -4,36 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyclone Art Studio</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-        }
-        .toolbar {
-            margin: 20px 0;
-        }
-        .toolbar label, .toolbar button {
-            margin: 0 10px;
-        }
-        canvas {
-            border: 2px solid #4CAF50;
-            display: block;
-            margin: 0 auto;
-            cursor: crosshair;
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="art-studio.css">
 </head>
 <body>
     <header>
@@ -58,66 +29,6 @@
         <p>&copy; 2024 CycloneWare. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Canvas setup
-        const canvas = document.getElementById('artCanvas');
-        const ctx = canvas.getContext('2d');
-        let painting = false;
-
-        // Brush settings
-        const colorPicker = document.getElementById('color');
-        const brushSize = document.getElementById('brushSize');
-        const clearButton = document.getElementById('clearCanvas');
-        const saveButton = document.getElementById('saveImage');
-
-        // Start drawing
-        function startPosition(e) {
-            painting = true;
-            draw(e);
-        }
-
-        // End drawing
-        function endPosition() {
-            painting = false;
-            ctx.beginPath(); // Stop connecting lines
-        }
-
-        // Draw on canvas
-        function draw(e) {
-            if (!painting) return;
-            ctx.lineWidth = brushSize.value;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = colorPicker.value;
-
-            // Adjust for canvas offset
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        // Clear the canvas
-        clearButton.addEventListener('click', () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        });
-
-        // Save the canvas as an image
-        saveButton.addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.download = 'CycloneArt.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        });
-
-        // Event listeners
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseout', endPosition); // Stop drawing when the mouse leaves the canvas
-    </script>
+    <script src="art-studio.js"></script>
 </body>
 </html>
