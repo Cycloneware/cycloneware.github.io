@@ -13,18 +13,21 @@ const player = {
     velocityY: 0,
     gravity: 0.4,
     jumpStrength: -10,
-    speed: 5, // Player movement speed
+    speed: 0, // Initial speed for left/right movement
+    maxSpeed: 5, // Maximum horizontal speed
+    acceleration: 0.2, // Acceleration for smooth movement
+    friction: 0.1, // Friction for deceleration
 };
 
 const platforms = [];
-const platformWidth = 100; // Increased platform width
+const platformWidth = 100;
 const platformHeight = 10;
 
 let score = 0;
 let gameOver = false;
 
 function createPlatform(x, y) {
-    return { x, y, width: platformWidth, height: platformHeight, speed: 1.5 }; // Slower platform speed
+    return { x, y, width: platformWidth, height: platformHeight, speed: 1.5 };
 }
 
 function initPlatforms() {
@@ -86,6 +89,35 @@ function drawScore() {
     ctx.fillText(`Score: ${score}`, 10, 30);
 }
 
+function updatePlayer() {
+    // Apply movement and boundaries
+    player.x += player.speed;
+
+    // Apply gravity
+    player.y += player.velocityY;
+    player.velocityY += player.gravity;
+
+    // Apply friction to slow the player down when no keys are pressed
+    if (player.speed > 0) {
+        player.speed -= player.friction;
+        if (player.speed < 0) player.speed = 0;
+    } else if (player.speed < 0) {
+        player.speed += player.friction;
+        if (player.speed > 0) player.speed = 0;
+    }
+}
+
+function handleInput() {
+    if (keys["ArrowLeft"] && !keys["ArrowRight"]) {
+        player.speed -= player.acceleration;
+        if (player.speed < -player.maxSpeed) player.speed = -player.maxSpeed;
+    }
+    if (keys["ArrowRight"] && !keys["ArrowLeft"]) {
+        player.speed += player.acceleration;
+        if (player.speed > player.maxSpeed) player.speed = player.maxSpeed;
+    }
+}
+
 function update() {
     if (gameOver) {
         ctx.fillStyle = "black";
@@ -97,28 +129,26 @@ function update() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    player.y += player.velocityY;
-    player.velocityY += player.gravity;
+    handleInput();
+    updatePlayer();
+    updatePlatforms();
+    checkCollision();
 
     drawPlatforms();
     drawPlayer();
     drawScore();
 
-    updatePlatforms();
-    checkCollision();
-
     requestAnimationFrame(update);
 }
 
-function keyHandler(event) {
-    if (event.key === "ArrowLeft") {
-        player.x -= player.speed;
-    } else if (event.key === "ArrowRight") {
-        player.x += player.speed;
-    }
-}
-
-document.addEventListener("keydown", keyHandler);
+// Input Handling
+const keys = {};
+document.addEventListener("keydown", (event) => {
+    keys[event.key] = true;
+});
+document.addEventListener("keyup", (event) => {
+    keys[event.key] = false;
+});
 
 initPlatforms();
 update();
