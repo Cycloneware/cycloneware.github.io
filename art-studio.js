@@ -1,59 +1,58 @@
-// Canvas setup
-const canvas = document.getElementById('artCanvas');
+const canvas = document.getElementById('drawingCanvas');
 const ctx = canvas.getContext('2d');
-let painting = false;
+const eraserTool = document.getElementById('eraser-tool');
+const penTool = document.getElementById('pen-tool');
+const brushSize = document.getElementById('brush-size');
+const colorPicker = document.getElementById('color-picker');
 
-// Brush settings
-const colorPicker = document.getElementById('color');
-const brushSize = document.getElementById('brushSize');
-const clearButton = document.getElementById('clearCanvas');
-const saveButton = document.getElementById('saveImage');
+let isDrawing = false;
+let isEraser = false;
+let brushColor = colorPicker.value;
+let brushWidth = brushSize.value;
+
+// Update canvas size
+canvas.width = window.innerWidth * 0.8;
+canvas.height = window.innerHeight * 0.6;
 
 // Start drawing
-function startPosition(e) {
-    painting = true;
-    draw(e);
-}
+canvas.addEventListener('mousedown', () => (isDrawing = true));
+canvas.addEventListener('mouseup', () => (isDrawing = false));
+canvas.addEventListener('mouseleave', () => (isDrawing = false));
 
-// End drawing
-function endPosition() {
-    painting = false;
-    ctx.beginPath(); // Stop connecting lines
-}
+canvas.addEventListener('mousemove', (e) => {
+    if (!isDrawing) return;
 
-// Draw on canvas
-function draw(e) {
-    if (!painting) return;
-    ctx.lineWidth = brushSize.value;
+    ctx.lineWidth = brushWidth;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = colorPicker.value;
 
-    // Adjust for canvas offset
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    if (isEraser) {
+        ctx.globalCompositeOperation = 'destination-out'; // Erase mode
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+    } else {
+        ctx.globalCompositeOperation = 'source-over'; // Draw mode
+        ctx.strokeStyle = brushColor;
+    }
 
-    ctx.lineTo(x, y);
+    ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(x, y);
-}
-
-// Clear the canvas
-clearButton.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.moveTo(e.offsetX, e.offsetY);
 });
 
-// Save the canvas as an image
-saveButton.addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = 'CycloneArt.png';
-    link.href = canvas.toDataURL();
-    link.click();
+// Switch to eraser
+eraserTool.addEventListener('click', () => {
+    isEraser = true;
+    eraserTool.style.border = '2px solid black'; // Highlight eraser tool
+    penTool.style.border = 'none';
 });
 
-// Event listeners
-canvas.addEventListener('mousedown', startPosition);
-canvas.addEventListener('mouseup', endPosition);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseout', endPosition); // Stop drawing when the mouse leaves the canvas
+// Switch to pen
+penTool.addEventListener('click', () => {
+    isEraser = false;
+    eraserTool.style.border = 'none';
+    penTool.style.border = '2px solid black'; // Highlight pen tool
+});
+
+// Update brush size and color
+brushSize.addEventListener('input', () => (brushWidth = brushSize.value));
+colorPicker.addEventListener('input', () => (brushColor = colorPicker.value));
