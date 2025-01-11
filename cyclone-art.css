@@ -1,0 +1,80 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f9;
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+header p {
+    margin: 5px 0 0;
+}
+
+/* Toolbar Styling */
+.toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    padding: 10px 0;
+    border-bottom: 2px solid #ccc;
+}
+
+.toolbar button,
+.toolbar input[type="color"],
+.toolbar input[type="range"] {
+    margin: 0 10px;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toolbar button {
+    background-color: #007BFF;
+    color: white;
+}
+
+.toolbar button:hover {
+    background-color: #0056b3;
+}
+
+.toolbar #eraser-tool {
+    background-color: #FF6347; /* Distinct Eraser Color */
+}
+
+.toolbar #eraser-tool:hover {
+    background-color: #E55347;
+}
+
+/* Canvas Styling */
+canvas {
+    display: block;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styling */
+footer {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
