@@ -11,19 +11,20 @@ const player = {
     height: 20,
     color: "red",
     velocityY: 0,
-    gravity: 0.5,
+    gravity: 0.4,
     jumpStrength: -10,
+    speed: 5, // Player movement speed
 };
 
 const platforms = [];
-const platformWidth = 80;
+const platformWidth = 100; // Increased platform width
 const platformHeight = 10;
 
 let score = 0;
 let gameOver = false;
 
 function createPlatform(x, y) {
-    return { x, y, width: platformWidth, height: platformHeight, speed: 2 };
+    return { x, y, width: platformWidth, height: platformHeight, speed: 1.5 }; // Slower platform speed
 }
 
 function initPlatforms() {
@@ -69,7 +70,12 @@ function checkCollision() {
         }
     });
 
-    if (player.y > canvas.height) {
+    // Prevent the player from falling off horizontally
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+    // Grace period for falling off-screen
+    if (player.y > canvas.height + 20) {
         gameOver = true;
     }
 }
@@ -105,10 +111,10 @@ function update() {
 }
 
 function keyHandler(event) {
-    if (event.key === "ArrowLeft" && player.x > 0) {
-        player.x -= 20;
-    } else if (event.key === "ArrowRight" && player.x + player.width < canvas.width) {
-        player.x += 20;
+    if (event.key === "ArrowLeft") {
+        player.x -= player.speed;
+    } else if (event.key === "ArrowRight") {
+        player.x += player.speed;
     }
 }
 
