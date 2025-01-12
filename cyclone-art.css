@@ -1,80 +1,250 @@
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
+/* Global reset and basic styles */
+* {
     margin: 0;
     padding: 0;
-    text-align: center;
-    background-color: #f4f4f9;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
 }
 
 header {
-    background-color: #007BFF;
+    background-color: #333;
     color: white;
-    padding: 20px 0;
+    padding: 10px 0;
+    text-align: center;
 }
 
-header h1 {
+header .logo h1 {
     margin: 0;
-    font-size: 2em;
 }
 
-header p {
-    margin: 5px 0 0;
-}
-
-/* Toolbar Styling */
-.toolbar {
+nav ul {
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: #eee;
-    padding: 10px 0;
-    border-bottom: 2px solid #ccc;
+    list-style: none;
+    margin-top: 10px;
 }
 
-.toolbar button,
-.toolbar input[type="color"],
-.toolbar input[type="range"] {
-    margin: 0 10px;
-    padding: 10px;
-    font-size: 14px;
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a.active {
+    color: #f0a500;
+}
+
+main {
+    margin-top: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Canvas container and styling */
+.canvas-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 2px solid #000;
+    overflow: hidden;
+}
+
+#layers-container {
+    position: relative;
+}
+
+#currentColor {
+    background-color: #000;
+    margin-top: 10px;
+}
+
+/* Tools section */
+.tools {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.tool-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.tool-button {
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    border-radius: 5px;
+    padding: 10px 20px;
     cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-.toolbar button {
+.tool-button:hover {
+    background-color: #45a049;
+}
+
+.tool-button.active {
+    background-color: #f0a500;
+}
+
+/* Layer controls section */
+.layer-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.layer-buttons button {
     background-color: #007BFF;
     color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+    border-radius: 5px;
 }
 
-.toolbar button:hover {
+.layer-buttons button:hover {
     background-color: #0056b3;
 }
 
-.toolbar #eraser-tool {
-    background-color: #FF6347; /* Distinct Eraser Color */
+/* Color selection section */
+.color-selection {
+    margin-top: 20px;
+    text-align: center;
 }
 
-.toolbar #eraser-tool:hover {
-    background-color: #E55347;
+.color-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-/* Canvas Styling */
-canvas {
-    display: block;
-    margin: 20px auto;
-    border: 1px solid #ccc;
+.color-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.color-button:hover {
+    transform: scale(1.2);
+}
+
+/* Color button styles for different colors */
+.color-button[style*="red"] {
+    background-color: red;
+}
+
+.color-button[style*="green"] {
+    background-color: green;
+}
+
+.color-button[style*="blue"] {
+    background-color: blue;
+}
+
+.color-button[style*="yellow"] {
+    background-color: yellow;
+}
+
+.color-button[style*="orange"] {
+    background-color: orange;
+}
+
+.color-button[style*="purple"] {
+    background-color: purple;
+}
+
+.color-button[style*="pink"] {
+    background-color: pink;
+}
+
+.color-button[style*="black"] {
+    background-color: black;
+}
+
+.color-button[style*="white"] {
     background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Footer Styling */
+.color-button[style*="brown"] {
+    background-color: brown;
+}
+
+/* Layer info */
+.layer-info {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.layer-info span {
+    font-weight: bold;
+}
+
+/* Canvas and text tool settings */
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#activeLayer {
+    font-weight: bold;
+}
+
+/* Footer */
 footer {
-    background-color: #007BFF;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #888;
+}
+/* Undo and Redo button styles */
+.tool-button {
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.tool-button:hover {
+    background-color: #45a049;
+}
+
+.tool-button.active {
+    background-color: #f0a500;
+}
+
+#undoButton, #redoButton {
+    background-color: #007BFF;
+}
+
+#undoButton:hover, #redoButton:hover {
+    background-color: #0056b3;
 }
