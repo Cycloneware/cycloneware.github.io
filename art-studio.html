@@ -4,31 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyclone Art Studio</title>
-    <link rel="stylesheet" href="art-studio.css">
+    <link rel="stylesheet" href="cyclone-art.css">
 </head>
 <body>
     <header>
-        <h1>Cyclone Art Studio</h1>
-        <p>Unleash your creativity and make your masterpiece!</p>
+        <div class="logo">
+            <h1>Cyclone Art Studio</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="art-studio.html" class="active">Art Studio</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="toolbar">
-        <label for="color">Brush Color:</label>
-        <input type="color" id="color" value="#000000">
+    <main>
+        <section class="canvas-container">
+            <h2>Canvas</h2>
+            <canvas id="artCanvas" width="800" height="600"></canvas>
+            <div id="currentColor" style="width: 50px; height: 50px; border: 2px solid #000; margin-top: 10px;"></div>
+        </section>
 
-        <label for="brushSize">Brush Size:</label>
-        <input type="range" id="brushSize" min="1" max="20" value="5">
+        <section class="tools">
+            <h2>Tools</h2>
+            <div class="tool-buttons">
+                <button id="pencilTool" class="tool-button">Pencil</button>
+                <button id="eraserTool" class="tool-button">Eraser</button>
+                <button id="clearCanvas" class="tool-button">Clear</button>
+                <button id="undoButton" class="tool-button">Undo</button>
+                <button id="redoButton" class="tool-button">Redo</button>
+                <button id="addLayerButton" class="tool-button">Add Layer</button>
+                <button id="removeLayerButton" class="tool-button">Remove Layer</button>
+                <button id="toggleLayerButton" class="tool-button">Toggle Layer Visibility</button>
+            </div>
+        </section>
 
-        <button id="clearCanvas">Clear Canvas</button>
-        <button id="saveImage">Save Artwork</button>
-    </div>
-
-    <canvas id="artCanvas" width="800" height="600"></canvas>
+        <section class="color-selection">
+            <h3>Select a Color</h3>
+            <input type="color" id="color-picker" />
+            <label for="brush-size">Brush Size:</label>
+            <input type="range" id="brush-size" min="1" max="10" value="5" />
+        </section>
+    </main>
 
     <footer>
         <p>&copy; 2024 CycloneWare. All rights reserved.</p>
     </footer>
 
-    <script src="art-studio.js"></script>
+    <script src="cyclone-art.js"></script>
 </body>
 </html>
